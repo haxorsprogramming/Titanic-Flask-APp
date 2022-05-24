@@ -1,0 +1,82 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="row" style="margin-top: 15px">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+    <h3>Masukkan Nilai Dalam Kolom</h3>
+    <hr/>
+    <div class="form-group">
+      <label>Age</label>
+      <input type="text" class="form-control" id="txtAge"/>
+    </div>
+    <div class="form-group">
+      <label>Sex</label>
+      <select class="form-control" id="txtSex">
+        <option value="m">Male</option>
+        <option value="f">Female</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>How Many Siblings</label>
+      <input type="text" class="form-control" id="txtSiblings" />
+    </div>
+    <div class="form-group">
+      <label>Cabin Class</label>
+      <select class="form-control" id="txtCabinClass">
+        <option value="f">First Class</option>
+        <option value="s">Second Class</option>
+        <option value="e">Economic Class</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Are You Married?</label>
+      <select class="form-control" id="txtMarried">
+        <option value="y">Yes</option>
+        <option value="n">No</option>
+      </select>
+    </div>
+  </div>
+  
+</div>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+    <a href="javascript:void(0)" class="btn btn-primary" onclick="prosesAtc()" id="btnProses">Proses</a>
+  </div>
+</div>
+<script>
+
+    var statusProses = false;
+
+    function prosesAtc()
+    {
+      let age = document.querySelector("#txtAge").value;
+      let sex = document.querySelector("#txtSex").value;
+      let siblings = document.querySelector("#txtSiblings").value;
+      let cabin = document.querySelector("#txtCabinClass").value;
+      let married = document.querySelector("#txtMarried").value;
+
+      let ds = {'age':age, 'sex':sex, 'siblings':siblings, 'cabin':cabin, 'married':married}
+
+      if(statusProses === false){
+        
+        let konfirmasi = window.confirm("Proses? ...");
+
+        if(konfirmasi === true){
+          $("#btnProses").html("Memproses ...");
+          $.post('http://127.0.0.1:5000/proses', ds, function(data){
+            console.log(data);
+          });
+          statusProses = true;
+        }else{
+
+        }
+      }else{
+
+      }
+      
+
+    }
+
+
+  
+
+</script>
+{% endblock %}
