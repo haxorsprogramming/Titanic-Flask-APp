@@ -130,18 +130,18 @@ def proses():
     else:
         pass_id_temp += 200
 
-    # final_test = predict_testset(test, train, number_of_neighbors=10)
-    # result = final_test[['PassengerId', 'Survived']].copy()
-    # hjson = result.to_numpy()
+    final_test = predict_testset(test, train, number_of_neighbors=10)
+    result = final_test[['PassengerId', 'Survived']].copy()
+    hjson = result.to_numpy()
     hasil = 0
     # print(result)
     # print(pass_id_temp)
-    # for x in hjson:
-        # pass_id = x[0]
-        # if pass_id == pass_id_temp:
-            # hasil = x[1]
-        # else:
-            # hasil = 0
+    for x in hjson:
+        pass_id = x[0]
+        if pass_id == pass_id_temp:
+            hasil = x[1]
+        else:
+            hasil = 0
 
     
     context = {
