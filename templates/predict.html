@@ -34,6 +34,15 @@
       </select>
     </div>
   </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+    <h3>Hasil Prediksi</h3>
+    <h4>Prediksi untuk Penumpang :</h4>
+    <div>
+      <strong id="divStatus"></strong>
+      <br/>
+      <a href="/predict">Re-test</a>
+    </div> 
+  </div>
   
 </div>
 <div class="row">
@@ -62,7 +71,16 @@
         if(konfirmasi === true){
           $("#btnProses").html("Memproses ...");
           $.post('http://127.0.0.1:5000/proses', ds, function(data){
-            console.log(data);
+            window.alert("Proses selesai ...");
+            let hasil = data.hasil;
+            console.log(hasil);
+            $("#btnProses").hide();
+            if(hasil === 0){
+              document.querySelector("#divStatus").innerHTML = "Didn't Survive (x_x)";
+            }else{
+              document.querySelector("#divStatus").innerHTML = "Survived :)";
+            }
+            // console.log(data);
           });
           statusProses = true;
         }else{

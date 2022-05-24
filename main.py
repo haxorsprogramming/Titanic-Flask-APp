@@ -1,3 +1,4 @@
+from pprint import pp
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -44,7 +45,7 @@ def proses():
                    'Dona': 'Mrs'}
     combined['Title'] = combined['Title'].map(title_reduction)
     for title, age in combined.groupby('Title')['Age'].median().iteritems():
-        print(title, age)
+        # print(title, age)
         combined.loc[(combined['Title']==title) & (combined['Age'].isnull()), 'Age'] = age
 
     combined['surname'] = combined['Name'].apply(lambda x: x.split(",")[0])
@@ -103,26 +104,53 @@ def proses():
     # should be (2,2) and (3,3) (if keeping track of duplicates)
     get_nearest_neighbor(vector, dataset)
 
-    print(predict(vector, dataset))
-    print(predict(pd.Series({'a': 4.5, 'b': 4.5}), dataset))
-
-    final_test = predict_testset(test, train, number_of_neighbors=10)
-    result = final_test[['PassengerId', 'Survived']].copy()
-    hjson = result.to_json()
-    print(result)
-
+    # print(predict(vector, dataset))
+    # print(predict(pd.Series({'a': 4.5, 'b': 4.5}), dataset))
     age = request.form['age']
     sex = request.form['sex']
     siblings = request.form['siblings']
     cabin = request.form['cabin']
     married = request.form['married']
+    pass_id_temp = 0
+
+    # if int(age) < 20:
+    #     pass_id_temp += 20
+    # else:
+    #     pass_id_temp += 40
+
+    if cabin == 'f':
+        pass_id_temp += 7
+    elif cabin == 's':
+        pass_id_temp += 8
+    else:
+        pass_id_temp += 9
+    
+    if married == 'y':
+        pass_id_temp += 100
+    else:
+        pass_id_temp += 200
+
+    # final_test = predict_testset(test, train, number_of_neighbors=10)
+    # result = final_test[['PassengerId', 'Survived']].copy()
+    # hjson = result.to_numpy()
+    hasil = 0
+    # print(result)
+    # print(pass_id_temp)
+    # for x in hjson:
+        # pass_id = x[0]
+        # if pass_id == pass_id_temp:
+            # hasil = x[1]
+        # else:
+            # hasil = 0
+
+    
     context = {
         'age' : age,
         'sex' : sex,
         'siblings' : siblings,
         'cabin' : cabin,
         'married' : married,
-        'hasil' : hjson
+        'hasil' : hasil
     }
     return jsonify(context)
 
@@ -196,4 +224,4 @@ def predict_testset(test_dataset, train_dataset, number_of_neighbors=1):
     return ds
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
